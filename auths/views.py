@@ -56,7 +56,7 @@ def signup(request):
             print("username already taken")
             return render(request, 'auths/signUp.html')
 
-        return render(request, 'auths/signIn.html')
+        return redirect('../signin')
            
         
     return render(request, 'auths/signUp.html')
@@ -64,22 +64,24 @@ def signup(request):
 
 def signin(request):
     if request.method == 'POST':
-
+        # data from frontend
         username = request.POST['username']
         password = request.POST['password']
 
         # authentications:
+        user=None
+       
         # check if mathi ko username is email or actual username
         if '@' in username:
             try:
                 user = authenticate(username=User.objects.get(email=username), password=password)
             except:
-                print("error:Invalid Login")
+                print("error:Invalid Login for email")
         else:
             try:
                 user = authenticate(username=username, password=password)
             except:
-                print("error:Invalid Login")
+                print("error:Invalid Login for username")
 
         if user is not None:
             login(request, user)
