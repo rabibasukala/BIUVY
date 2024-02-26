@@ -100,3 +100,6 @@ def signout(request):
     print("logedohgcalhv")
 
     return redirect('home')
+
+def forgetPassword(request):
+    return render(request, 'auths/forgetPassword.html')
