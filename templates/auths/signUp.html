@@ -1,0 +1,31 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>sign in</title>
+    <link rel="stylesheet" href={%static "sign_up.css" %}>
+</head>
+
+<body>
+<h1>Sign Up</h1>
+    <div>
+        <form action="" method="post">
+            {% csrf_token %}
+            <input  type="text" name='firstname' required placeholder='First Name'><br>
+            <input  type="text" name='lastname' required placeholder='Last Name'><br>
+            <input type="text" name="username" id="" required placeholder='Username'><br>
+            <input type="email" name="email" id="" required placeholder='Email Address'><br>
+
+            <input  type="password" name="password1" id="" required placeholder='Password'><br>
+            <input  type="password" name="password2" id="" required placeholder='Confirm Password'><br>
+            <input  id="" type="submit" value="submit">
+        </form>
+        <p id="fk">Already have an account?<a id="" href="{%url 'signin'%}">Sign in</a></p>
+    </div>
+</body>
+
+</html>

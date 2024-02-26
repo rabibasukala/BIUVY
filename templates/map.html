@@ -1,0 +1,56 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+
+    <!-- leaflet  -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+        integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
+ <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+        integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+
+
+    <!-- markercluster css -->
+    <link rel="stylesheet" href="{%static 'plugins/markerClusterDist/MarkerCluster.css' %}" />
+    <link rel="stylesheet" href="{%static 'plugins/markerClusterDist/MarkerCluster.Default.css' %}" />
+
+    <!-- custom css -->
+    <style>
+        #map {
+            height: 100vh;
+            width: 100%;
+        }
+    </style>
+</head>
+
+<body>
+    TBD
+    <div id="map"></div>
+</body>
+
+
+
+
+
+
+
+
+<!-- leaflet js  -->
+{% comment %} <script src="https://unpkg.com/leaflet@1.5.1/dist/leaflet.js"></script> {% endcomment %}
+
+<!-- markercluster js -->
+<script src='{% static "plugins/markerClusterDist/leaflet.markercluster.js" %}'></script>
+
+<!-- geojson data  -->
+<script src="{% static 'js/locations.js' %}"></script>
+
+<!-- custom js  -->
+<script src="{%static 'js/ForMap.js' %}"></script>
+
+
+
+</html>
