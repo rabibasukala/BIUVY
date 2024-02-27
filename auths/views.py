@@ -4,8 +4,10 @@ from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.utils import timezone
+from .send_mail import sendmail
+import uuid
+from .models import ForgetTokenManager
 
-from datetime import datetime
 
 def signup(request):
     if request.method == 'POST':
@@ -76,12 +78,12 @@ def signin(request):
             try:
                 user = authenticate(username=User.objects.get(email=username), password=password)
             except:
-                print("error:Invalid Login for email")
+                print("error:Invalid Login from email")
         else:
             try:
                 user = authenticate(username=username, password=password)
             except:
-                print("error:Invalid Login for username")
+                print("error:Invalid Login from username")
 
         if user is not None:
             login(request, user)
@@ -101,5 +103,90 @@ def signout(request):
 
     return redirect('home')
 
+
+# handle forget password
 def forgetPassword(request):
+    if request.method == 'POST':
+        email = request.POST['email']
+        # check if email exists
+        if not User.objects.filter(email=email).exists():   #since email is unique we can use filter
+            
+            print(f"email not exists",email)
+            return redirect('forgetPassword')
+        
+
+        try:
+            #send email to existing email with unique uuid
+            uid=str(uuid.uuid4())
+            
+
+            #  save token
+
+            user_obj=User.objects.get(email=email)
+            print(user_obj.first_name,user_obj.email)
+            token_obj,created=ForgetTokenManager.objects.get_or_create(user=user_obj)
+         
+            # even token is already created we simply just update it
+            token_obj.forget_password_token=uid
+            print(token_obj.forget_password_token)
+
+            token_obj.save()
+            # send mail
+            sended=sendmail(email,uid)
+            print("sent:",sended)
+         
+            if not sended:
+                print("cant send")
+                return render(request, 'auths/forgetPassword.html')
+            
+            return HttpResponse("Check your email for reset link")
+
+        except Exception as e:
+            print("some error occured",e)
+            return render(request, 'auths/forgetPassword.html')
+        
     return render(request, 'auths/forgetPassword.html')
+
+# used for resetting password
+def resetPassword(request,token):
+
+    if request.method=="POST":
+        
+        try:
+            # return the user with token saved
+            forgetTokenManager_obj=ForgetTokenManager.objects.get(forget_password_token=token)
+            print(forgetTokenManager_obj.user)
+            
+            # data from front
+            password1=request.POST['password1']
+            password2=request.POST['password2']
+
+            # check passwords
+            if str(password1) != str(password2) :
+                print("error:Enter the password correctly")
+                return render(request,f"auths/resetPassword/{token}")
+                
+            if len(password1) < 8 or len(password2) < 8:
+                print("error:Password must be at least 8 characters")
+                return render(request,f"auths/resetPassword/{token}")
+            
+            # set new password
+            try:
+                user=forgetTokenManager_obj.user
+                user.set_password(password1)
+                user.save()
+                print("sucessfully reset password")
+                
+            except Exception as e:
+                print("error:unable to reset password",e)
+                return render(request,f"auths/resetPassword/{token}")
+            
+            return redirect("/auth/signin")
+
+
+        except Exception as e:
+            print("Some error occured",e)
+        
+
+    
+    return render(request, 'auths/resetPassword.html')
