@@ -10,9 +10,7 @@ password='vdqnykmqrbymzimk'
 
 def sendmail(emailid,token):
     receiver = emailid
-
     try:
-
         # creating email format:
         message = EmailMessage()
         message['Subject'] = "Password Reset"
