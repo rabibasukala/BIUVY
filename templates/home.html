@@ -128,7 +128,6 @@
 
 
 
-
     <div class="feature-lists-overlay d-flex gap-4">
 
         <div class="feature-list-images-div">
@@ -284,6 +283,7 @@
     <div class="advance-main-search-div">
         <div id="advancesearch " class="text-start px-2">
             <h4>Advance Search</h4>
+            <span id="closeIcon" onclick="toggleAdvanceSearch()">X</span>
         </div>
         <div id="advance-search-line">
 
@@ -321,6 +321,7 @@
     <div class="qr-main-div">
         <div id="qr-text " class="text-start px-2">
             <h4>QR Reader</h4>
+            <span id="closeIcon" onclick="closeQr()">X</span>
         </div>
         <div id="qr-line">
 
@@ -364,7 +365,17 @@
 <script>
 
     <!-- for map icon  -->
-    var iconUrl = "{% static 'assets/images/pin.svg' %}"
+    var markerUrl = "{% static 'assets/images/pin.svg' %}"
+    var mypositionIcon = "{% static 'assets/images/circle.svg' %}"
+
+    <!-- for svgs  -->
+    var directionSvg = "{% static 'assets/images/direction.svg' %}"
+    var detailSvg = "{% static 'assets/images/detail.svg' %}"
+    var paperplaneSvg = "{% static 'assets/images/paperplane.svg' %}"
+
+    <!-- for urls  -->
+    descriptionUrl="{% url 'description'  %}"
+
 
 </script>
 

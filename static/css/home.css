@@ -114,7 +114,7 @@ body {
     position: absolute;
     top: 80px;
     /* Adjust as needed */
-    right: 130px;
+    right: 318px;
     /* Adjust as needed */
     z-index: 1000;
     /* Ensure the container is above the map */
@@ -135,8 +135,8 @@ body {
 }
 
 .bottomsearch-btn {
-    height: 34px;
-    width: 45px;
+    height: 35px;
+    width: 40px;
     background-color: white;
     color: purple;
     border-radius: 50%;
@@ -196,7 +196,6 @@ body {
     height: 70px;
     width: inherit;
     object-fit: cover;
-
     border-radius: 5px 5px 0 0;
 
 
@@ -276,9 +275,10 @@ body {
 /* popups */
 /*  */
 
+
 .pop {
-    height: 200px;
-    width: 180px;
+    height: auto;
+    width: 260px;
     background-color: purple;
 }
 
@@ -286,7 +286,6 @@ body {
     width: inherit;
 
     object-fit: cover;
-    /* border-radius: 5px 5px 0 0; */
 }
 
 
@@ -325,25 +324,38 @@ body {
     white-space: nowrap;
 }
 
-.popDesc {
-
-    padding-left: 5px;
+.popbtns {
+    padding: 0.3rem;
+    display: flex;
+    justify-content: space-around;
+    /* background-color: rgb(255, 0, 0); */
     color: white;
 }
 
-.popDesc p {
-    margin: 5px;
+.popbtn {
+    /* background-color: black; */
+    color: white;
+    border: none;
+    padding: 0.3rem;
     font-size: 12px;
-    overflow: hidden;
-    display: -webkit-box;
-    -webkit-line-clamp: 2;
-    /* Number of lines to show */
-    -webkit-box-orient: vertical;
-    text-overflow: ellipsis;
-    white-space: normal;
-    /* Ensure text wraps within the box */
-    max-height: 2rem;
-    /* Calculate height based on line-height */
+    cursor: pointer;
+    color: purple;
+    width: 50%;
+    margin: 5px;
+    border-radius: 20px;
+}
+
+#popKOa {
+    color: purple;
+    text-decoration: none;
+}
+
+.popbtn img,
+.nameAndView img {
+    /* background-color: brown; */
+    height: 12px;
+    padding: 0 5px 0 5px;
+
 }
 
 
@@ -351,9 +363,11 @@ body {
 .leaflet-popup-content-wrapper {
     background-color: transparent;
     border: none;
+
     box-shadow: none;
     padding: 0px;
     overflow: hidden;
+    z-index: 30000;
 }
 
 .leaflet-popup-content {
@@ -423,6 +437,14 @@ body {
 
 }
 
+#closeIcon {
+    position: absolute;
+    top: 5px;
+    right: 10px;
+    cursor: pointer;
+    font-size: 15px;
+}
+
 /* qr */
 .qr-main-div {
     position: absolute;
@@ -490,6 +512,165 @@ body {
     }
 }
 
-.hidden {
-    display: none;
+@media screen and (max-width: 1050px) {
+
+    .overlay-container {
+        right: 100px;
+    }
+}
+
+@media screen and (max-width: 1011px) {
+
+    .overlay-container {
+        right: 100px;
+    }
+}
+
+
+@media screen and (max-width: 803px) {
+
+
+    .overlay-container {
+        right: 50px;
+    }
+}
+
+@media screen and (max-width: 747px) {
+
+
+    .overlay-container {
+        right: 10px;
+        padding: 2px;
+    }
+
+    .bottomsearch {
+        height: 30px;
+        padding: 5px;
+
+    }
+}
+
+@media screen and (max-width: 699px) {
+
+
+    .overlay-container {
+        right: 0px;
+        padding: 2px;
+    }
+
+    .bottomsearch {
+
+        width: 150px;
+
+
+    }
+}
+
+@media screen and (max-width: 559px) {
+
+
+    .overlay-container {
+        right: 20px;
+    }
+
+    .bottomsearch {
+        height: 28px;
+        width: 100px;
+        padding: 3px;
+
+    }
+
+    .bottomsearch-btn {
+        height: 30px;
+        width: 35px;
+    }
+
+    .bottomsearch::placeholder {
+        font-size: 12px;
+
+    }
+}
+
+@media screen and (max-width: 423px) {
+
+
+    .overlay-container {
+
+        right: 0px;
+    }
+
+    .bottomsearch {
+        height: 25px;
+        width: 85px;
+        padding: 3px;
+
+    }
+}
+
+@media screen and (max-width: 359px) {
+
+
+    .overlay-container {
+        right: 0px;
+    }
+
+    .bottomsearch {
+        height: 25px;
+        width: 80px;
+        padding: 4px;
+
+    }
+
+    .bottomsearch-btn {
+        height: 28px;
+        width: 33px;
+    }
+
+
+}
+
+@media screen and (max-width: 339px) {
+
+
+    .overlay-container {
+        right: 0px;
+    }
+
+    .bottomsearch {
+        height: 22px;
+        width: 70px;
+        /* padding: 3px; */
+
+    }
+
+    .bottomsearch-btn {
+        height: 25px;
+        width: 30px;
+    }
+}
+
+@media screen and (max-width: 301px) {
+
+
+    .overlay-container {
+        padding: 0;
+        right: 0px;
+    }
+
+    .bottomsearch {
+        height: 18px;
+        width: 70px;
+        padding: 3px;
+
+    }
+
+    .bottomsearch-btn {
+        height: 25px;
+        width: 30px;
+    }
+
+    .bottomsearch::placeholder {
+        font-size: 9px;
+
+    }
 }

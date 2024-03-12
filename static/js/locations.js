@@ -297,6 +297,7 @@ const location_data = {
                 score: 8,
             },
         },
+
         {
             type: "Feature",
             geometry: {
@@ -350,6 +351,17 @@ const location_data = {
 
 
                 Name: "46",
+                randomfeature: 30,
+                score: 8,
+            },
+        },
+        {
+            type: "Feature",
+            geometry: { type: "Point", coordinates: [85.372111, 27.698332] },
+            properties: {
+
+
+                Name: "bkt",
                 randomfeature: 30,
                 score: 8,
             },
