@@ -1,23 +1,329 @@
 {% load static %}
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>descriptions</title>
-</head>
-<body>
-    <audio id="audioPlayer" controls>
-        <source id=audioSource src='../media/sounds/cat.wav' type="audio/wav">
-    </audio>
-    
-    <select name="pets" id="animalSelect">
-        <option value="cat">cat</option>
-        <option value="dog">dog</option>
 
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>BIUVY</title>
+
+    <!-- boostrap css -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+
+    <!-- custom css -->
+    <link rel="stylesheet" href="{% static 'css/description.css' %}">
+</head>
+
+<body>
+
+    <nav class="navbar">
+        <div class="container d-flex justify-content-center align-items-center">
+            <a class="navbar-brand" href="">
+                <img class="logo" src='{%static "assets/images/logo.png" %}' alt="logo">
+            </a>
+        </div>
+    </nav>
+    <div class="container">
+        <!-- top image -->
+        <div class="image-div">
+            <!-- audio -->
+
+            <div class="audio-container">
+                <audio id="audioPlayer" controls>
+                    <source src='{%static "assets/images/bark.mp3"%}'>
+                    Your browser does not support the audio element.
+                </audio>
+                <div class="language">
+
+                    <select id="languageSelect">
+                        <option value="english" selected>English</option>
+                        <option value="nepali">Nepali</option>
+                        <option value="hindi">Hindi</option>
+                        <option value="spanish">Spanish</option>
+                    </select>
+                </div>
+            </div>
+            <!-- video -->
+            <video class="topvideo img-fluid rounded-4 " src="{%static 'assets/images/temple.mp4'%}" autoplay muted controls></video>
+            <!-- gallary -->
+            <div id="carouselExampleInterval" class="carousel slide" data-bs-ride="carousel">
+                <div class="carousel-inner">
+                    <div class="carousel-item active c-item" data-bs-interval="2000">
+                        <img src='{%static "assets/images/ocean.jpg" %}' class="d-block w-100 rounded-4 c-img" alt="...">
+                    </div>
+                    <div class="carousel-item c-item" data-bs-interval="2000">
+                        <img src='{%static "assets/images/ocean.jpg"%}' class="d-block w-100 rounded-4 c-img" alt="...">
+                    </div>
+                    <div class="carousel-item c-item">
+                        <img src="{% static 'assets/images/pasupati.avif'%}" class="d-block w-100 rounded-4 c-img" alt="...">
+                    </div>
+                    <div class="carousel-item c-item" data-bs-interval="2000">
+                        <img src="{%static 'assets/images/other.jpg' %}" class="d-block w-100 rounded-4 c-img" alt="...">
+                    </div>
+                    <div class="carousel-item c-item">
+                        <img src="{%static 'assets/images/pasupati.avif' %}" class="d-block w-100 rounded-4 c-img" alt="...">
+                    </div>
+                </div>
+                <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleInterval"
+                    data-bs-slide="prev">
+                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                    <span class="visually-hidden">Previous</span>
+                </button>
+                <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleInterval"
+                    data-bs-slide="next">
+                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                    <span class="visually-hidden">Next</span>
+                </button>
+            </div>
+            <!--  -->
+        </div>
+        <!-- sub headings in bottom of image -->
+        <div class="multimedia container">
+            <h3 class="text-center audio">Audio</h3>
+            <h3 class="text-center video">Video</h3>
+            <h3 class="text-center gallary">Gallary</h3>
+
+        </div>
+
+
+        <h2 class="text-start mt-2 heading">Pasupatinath Temple</h2>
+        <div class="line"></div>
+        <div class="desc">
+            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Quibusdam perspiciatis suscipit sequi mollitia
+                voluptates sunt, repudiandae harum consequuntur facilis, dolores blanditiis nihil aut ex obcaecati,
+                doloremque in illo? A reprehenderit, rerum neque ad repellat optio expedita nisi, corrupti tempora
+                vitae, officiis ab? Ipsa ratione, debitis officia unde laudantium non. Vitae deserunt corporis eius
+                neque nisi itaque sunt sint voluptatum nihil! Lorem, ipsum dolor sit amet consectetur adipisicing elit.
+                Harum omnis non delectus? Consectetur error non, pariatur aspernatur consequatur ex, iure blanditiis
+                omnis labore ad voluptas!</p>
+
+
+            <img src='{%static "assets/images/pasupati.avif" %}' class="img-fluid" alt="temple">
+
+
+
+        </div>
+
+
+        <!-- looking for experience -->
+    </div>
+    <div class="other">
+        <div class="container ">
+
+            <div class="d-flex justify-content-between">
+                <div>
+                    <h4>LOOKING FOR A </h4>
+                    <h3>different experience?</h3>
+                </div>
+                <div class="d-flex justify-content-center align-items-center p-4">
+                    <div class="mx-3 bg-primary rounded-3 p-2 mr-4 explorediv">
+                        <h4 id="explore">Explore All</h4>
+                    </div>
+                    <div>
+                        <i id="scroll-left" class="bi bi-arrow-left-circle-fill"></i>
+
+                        <i id="scroll-right" class="bi bi-arrow-right-circle-fill"></i>
+
+                    </div>
+
+                </div>
+
+
+            </div>
+            <div class="d-flex gap-4 bottom-container">
+                <div class="bottomimg ">
+
+                    <img src="{%static 'assets/images/other.jpg'%}" class=" bottom-img " alt="temple">
+
+
+                    <div class=" d-flex flex-column text-center">
+                        <span>xxxxxxxxxxxxxxxxxxxxxxxxxxxx</span>
+                        <span>Check out Daily Deals and Promotion on Hotels</span>
+                        <span>Easy & Fast Booking</span>
+
+                    </div>
+                </div>
+                <div class="bottomimg ">
+                    <img src="{%static 'assets/images/other.jpg'%}" class=" bottom-img " alt="temple">
+
+                    <div class=" d-flex flex-column text-center">
+                        <span>xxxxxxxxxxxxxxxxxxxxxxxxxxxx</span>
+                        <span>Check out Daily Deals and Promotion on Hotels</span>
+                        <span>Easy & Fast Booking</span>
+
+                    </div>
+                </div>
+                <div class="bottomimg ">
+                    <img src="{%static 'assets/images/other.jpg'%}" class=" bottom-img " alt="temple">
+
+                    <div class=" d-flex flex-column text-center">
+                        <span>xxxxxxxxxxxxxxxxxxxxxxxxxxxx</span>
+                        <span>Check out Daily Deals and Promotion on Hotels</span>
+                        <span>Easy & Fast Booking</span>
+
+                    </div>
+                </div>
+                <div class="bottomimg ">
+                    <img src="{%static 'assets/images/other.jpg'%}" class=" bottom-img " alt="temple">
+
+                    <div class=" d-flex flex-column text-center">
+                        <span>xxxxxxxxxxxxxxxxxxxxxxxxxxxx</span>
+                        <span>Check out Daily Deals and Promotion on Hotels</span>
+                        <span>Easy & Fast Booking</span>
+
+                    </div>
+                </div>
+                <div class="bottomimg ">
+                    <img src="{%static 'assets/images/other.jpg'%}" class=" bottom-img " alt="temple">
+
+                    <div class=" d-flex flex-column text-center">
+                        <span>xxxxxxxxxxxxxxxxxxxxxxxxxxxx</span>
+                        <span>Check out Daily Deals and Promotion on Hotels</span>
+                        <span>Easy & Fast Booking</span>
+
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <div class="container d-flex">
+        <div class="bottom-section">
+            <h3>Map</h3>
+            <div class="line mb-3"></div>
+            <div class="map-snippet">
+                <iframe width="100%" height="100%"
+                    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3532.2193819626273!2d85.34623757479201!3d27.71051197618072!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x39eb191aaaaaaaab%3A0x424c7d0a60df9091!2sPashupatinath%20Temple!5e0!3m2!1sen!2snp!4v1709817836506!5m2!1sen!2snp"
+                    style="border:0;" allowfullscreen="" loading="lazy"
+                    referrerpolicy="no-referrer-when-downgrade"></iframe> 
+            </div>
+        </div>
+        <div class="bottom-section">
+            <h3>Help?</h3>
+            <div class="line mb-3"></div>
+            <div class="help-snippet ">
+                <h3>
+
+                    <i class="bi bi-question-circle"></i>
+                </h3>
+                <h3>help & Support</h3>
+                <span>The Brilliant reasons Entrada be</span>
+                <span class="mb-2">your one-stop-shop!</span>
+                <span> help@entrada.com</span>
+                <span> +977(985) 456-32-12</span>
+
+            </div>
+        </div>
+
+    </div>
+    <footer class="footer1">
+        <div class="logofooter">
+            <img src="banner.png" alt="Logo">
+        </div>
+        <div class="links">
+            <a href="#"> About |</a>
+            <a href="#">Privacy Policy |</a>
+            <a href="#">Terms & Conditions |</a>
+            <a href="#">Contact</a>
+        </div>
+        <div class="newsletter">
+            <span class="mx-2">Newsletter:</span>
+            <form action="#">
+                <div class="twoinput">
+                    <input type="email" placeholder="Your email">
+                    <input type="submit" value="Subscribe">
+                </div>
+            </form>
+        </div>
+    </footer>
+    <div class="socials d-flex ">
+        <div class="d-flex align-items-center">
+            <span>Socials</span>
+            <a href="http://"><i class="bi bi-facebook"></i></a>
+            <a href="http://"><i class="bi bi-twitter"></i></a>
+            <a href="http://"><i class="bi bi-instagram"></i></a>
+            <a href="http://"><i class="bi bi-youtube"></i></a>
+        </div>
+        <div class="copywrite">
+            &copy;2020 Redwire, All rights reserved
+        </div>
+    </div>
+
+
+
+    <!-- boostrap js without proper -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.min.js"
+        integrity="sha384-cuYeSxntonz0PPNlHhBs68uyIAVpIIOZZ5JqeqvYYIcEL727kskC66kF92t6Xl2V"
+        crossorigin="anonymous"></script>
+
+    <script>
+
+
+        // video / image /audio switch
+        document.querySelector('.audio').addEventListener('click', function () {
+            document.querySelector('.audio-container').style.display = 'block';
+            document.querySelector('.topvideo').style.display = 'none';
+            document.querySelector('.carousel').style.display = 'none';
+            // Pause the video when switching to audio
+            document.querySelector('.topvideo').pause();
+            // resume the audio when switching
+            // document.querySelector('#audioPlayer').play();
+
+
+        });
+        document.querySelector('.video').addEventListener('click', function () {
+            document.querySelector('.topvideo').style.display = 'block';
+            document.querySelector('.audio-container').style.display = 'none';
+            document.querySelector('.carousel').style.display = 'none';
+            // resume the video when switching 
+            document.querySelector('.topvideo').play();
+            // Pause the audio when switching to other
+            document.querySelector('#audioPlayer').pause();
+
+        });
+        document.querySelector('.gallary').addEventListener('click', function () {
+            document.querySelector('.carousel').style.display = 'block';
+            document.querySelector('.audio-container').style.display = 'none';
+            document.querySelector('.topvideo').style.display = 'none';
+            // Pause the video/audio when switching to gallay
+            document.querySelector('.topvideo').pause();
+            document.querySelector('#audioPlayer').pause();
+
+
+        });
+
+
+        // scroll left and right
+        document.getElementById('scroll-left').addEventListener('click', function () {
+            document.querySelector('.bottom-container').scrollBy({
+                left: -355 - 24,
+                behavior: 'smooth'
+            });
+        });
+
+        document.getElementById('scroll-right').addEventListener('click', function () {
+            document.querySelector('.bottom-container').scrollBy({
+                left: 355 + 24,
+                behavior: 'smooth'
+            });
+        });
+
+        // Auto scroll right every 2 seconds
+        let scrollInterval = setInterval(() => {
+            let container = document.querySelector('.bottom-container');
+            container.scrollBy({
+                left: 355 + 24,
+                behavior: 'smooth'
+            });
+        }, 2000);
+
+
+
+    </script>
 </body>
 
-
-
-<script src="{%static 'js/description.js '%}"></script>
 </html>

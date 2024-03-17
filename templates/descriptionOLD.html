@@ -1,0 +1,23 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>descriptions</title>
+</head>
+<body>
+    <audio id="audioPlayer" controls>
+        <source id=audioSource src='../media/sounds/cat.wav' type="audio/wav">
+    </audio>
+    
+    <select name="pets" id="animalSelect">
+        <option value="cat">cat</option>
+        <option value="dog">dog</option>
+
+</body>
+
+
+
+<script src="{%static 'js/description.js '%}"></script>
+</html>
