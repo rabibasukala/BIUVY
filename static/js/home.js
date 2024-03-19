@@ -15,11 +15,15 @@ L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
 
 }).addTo(map);
 
+// locate control
+L.control.locate().addTo(map);
+
 
 
 
 // marker icons
 function customIcon(name) {
+
     return `/static/assets/icons/${name}.svg`
 
 }
@@ -31,13 +35,16 @@ var mypositionMarkerIcon = L.icon({
 });
 
 // custom popup content
-function customPopup(feature) {
-    coords = feature.geometry.coordinates
-    place_name = feature.properties.place_name
-    mainImage = feature.properties.mainImage
-    slug = feature.properties.slug
+function customPopup(feature, currentLocation) {
+    const coords = feature.geometry.coordinates
+    const place_name = feature.properties.place_name
+    const mainImage = feature.properties.mainImage
+    const slug = feature.properties.slug
 
+    const distance = L.latLng(currentLocation).distanceTo(L.latLng(coords)) / 1000; // in km/ in km
 
+    // console.log("co", coords)
+    // console.log("cu", currentLocation)
 
     return `    <div class="pop">
 
@@ -48,7 +55,7 @@ function customPopup(feature) {
         <div class="nameAndView">
             <span class="popupname">${place_name}</span>
 
-            <span class="view"> <img src="${paperplaneSvg}" alt="">10.2 km</span>
+            <span class="view"> <img src="${paperplaneSvg}" alt="">${distance.toFixed(2)} km</span>
         </div>
         <div class="line"></div>
 
@@ -70,16 +77,20 @@ function customPopup(feature) {
 const geodata = L.geoJSON(geolocation_desc
     , {
         onEachFeature: function (feature, layer) {
-
-            const popupContent =
-                customPopup(feature);
-
-
-            layer.bindPopup(popupContent, { offset: [0, -15] });
-
+            navigator.geolocation.getCurrentPosition(
+                // this to get coords for distance calculation
+                function (myposition) {
+                    const popupContent = customPopup(feature, [myposition.coords.longitude, myposition.coords.latitude]);
+                    layer.bindPopup(popupContent, { offset: [0, -15] });
+                },
+                function (error) {
+                    console.error("Error getting location:", error.message);
+                }
+            );
         },
+
         pointToLayer: function (feature, latlng) {
-            // console.log(feature)
+
             return L.marker(latlng, {
                 icon: L.icon({
                     iconUrl: customIcon(feature.properties.place_type),
@@ -87,7 +98,7 @@ const geodata = L.geoJSON(geolocation_desc
 
                 })
             });
-            return L.marker(latlng);
+            // return L.marker(latlng);
         }
     }
 );
@@ -96,10 +107,16 @@ const geodata = L.geoJSON(geolocation_desc
 const markers = L.markerClusterGroup().addLayer(geodata);
 map.addLayer(markers);
 
+
+function flyToPlace(e) {
+    map.flyTo(e.latlng, 13); // Fly to the marker's location with zoom level 13
+}
+
+
 // TODO:
 // this creates bugs in popup [IGNORE NOW]
 
-// // Function to fly to the marker's location when clicked
+// // // Function to fly to the marker's location when clicked
 // function flyToMarker(e) {
 //     map.flyTo(e.latlng, 19); // Fly to the marker's location with zoom level 19
 // }
@@ -114,8 +131,8 @@ function turnLocation() {
         navigator.geolocation.getCurrentPosition(
             // Success callback
             function (position) {
-                console.log("Latitude:", position.coords.latitude);
-                console.log("Longitude:", position.coords.longitude);
+                // console.log("Latitude:", position.coords.latitude);
+                // console.log("Longitude:", position.coords.longitude);
                 // Add your logic for handling the location here
             },
             // Error callback
@@ -132,6 +149,39 @@ function turnLocation() {
 
 // ------------------------------------------------
 
+
+//------------------- live position of user --------------------------------:
+
+// Create a marker for the current position
+// var currentLocationMarker = L.marker([0, 0]).addTo(map);
+
+// // Update the marker's position when the location changes
+// function updateMarkerPosition(position) {
+//     var latlng = [position.coords.latitude, position.coords.longitude];
+//     console.log(latlng);
+//     currentLocationMarker.setLatLng(latlng);
+//     currentLocationMarker.setIcon(mypositionMarkerIcon);
+// }
+
+// // Error callback
+// function errorCallback(error) {
+//     console.error("Error getting location:", error.message);
+// }
+
+// // Get the current position and watch for changes
+// if (navigator.geolocation) {
+//     navigator.geolocation.watchPosition(updateMarkerPosition, errorCallback, {
+//         enableHighAccuracy: true,
+//         // maximumAge: 0
+//     });
+// } else {
+//     console.error("Geolocation is not supported by this browser.");
+// }
+
+// --------------------------------------------------------------------------------------
+
+
+
 // --------------------------------- routing:------------------------------------------
 let routingControl = null; // Define a global variable to hold the routing control
 
@@ -139,15 +189,16 @@ function giveRoute(Placecoords) {
     let lngPlace = Placecoords.split(',')[0];
     let latPlace = Placecoords.split(',')[1];
 
-    // Remove existing routing control if it exists
-    if (routingControl) {
-        map.removeControl(routingControl);
-    }
 
     // let user to turn on location
     turnLocation();
 
-    navigator.geolocation.getCurrentPosition(function (myposition) {
+    navigator.geolocation.watchPosition(function (myposition) {
+
+        // Remove existing routing control if it exists, looks realtime routing
+        if (routingControl) {
+            map.removeControl(routingControl);
+        }
 
         let currentLocation = [myposition.coords.latitude, myposition.coords.longitude];
 
@@ -157,67 +208,48 @@ function giveRoute(Placecoords) {
                 L.latLng(latPlace, lngPlace)
             ],
 
+            // here  customize the marker for  points 
             // marker creation of waypoints:
-            // here  customize the marker for start and end points only
-            createMarker: function (i, waypoint, n) {
-                // Use custom icons for start and end points
-                if (i === 0) {
-                    map.flyTo(waypoint.latLng, 19);
-                    return L.marker(waypoint.latLng);
-                } else if (i === n - 1) {
-                    return L.marker(waypoint.latLng);
-                } else {
-                    // Default marker for intermediate points
-                    return L.marker(waypoint.latLng);
-                }
-            },
+            createMarker: function () { return null; },
+
             showalternatives: false,
             draggableWaypoints: [true, false],  //to make the start point(current positin) draggable 
-            // addWaypoints: false,
+            addWaypoints: false,
 
             lineOptions: {
                 styles: [{ color: 'purple', opacity: 1, weight: 5 }]
             },
 
             // for geocoding
-            geocoder: L.Control.Geocoder.nominatim()
+            // geocoder: L.Control.Geocoder.nominatim()
         }).addTo(map);
     });
+
 }
 // -----------------------------------------------------------------------
+// -----------------basic search yet one of hard lol------------------------------------------
+
+// Get the district ,municipality and ward from the URL query parameters
+const params = new URLSearchParams(window.location.search);
+const district = params.get('district');
+const municipality = params.get('municipality');
+const ward = params.get('ward');
+
+const address = `${municipality}-${ward}, ${municipality}, ${district}, Nepal`; // Adjust the address format as needed
+// Use Nominatim geocoding to get the coordinates
+L.Control.Geocoder.nominatim().geocode(address, function (results) {
+    if (results && results.length > 0) {
+        console.log(results);
+        const latlng = [results[0].center.lat, results[0].center.lng];
+        // Zoom into the area
+        map.setView(latlng, 12); // Adjust the zoom level as needed
+    } else {
+        console.error('Could not find coordinates for the address:', address);
+    }
+});
 
 
-
-
-//------------------- live position of user --------------------------------:
-
-// Create a marker for the current position
-var currentLocationMarker = L.marker([0, 0]).addTo(map);
-
-// Update the marker's position when the location changes
-function updateMarkerPosition(position) {
-    var latlng = [position.coords.latitude, position.coords.longitude];
-    console.log(latlng);
-    currentLocationMarker.setLatLng(latlng);
-    currentLocationMarker.setIcon(mypositionMarkerIcon);
-}
-
-// Error callback
-function errorCallback(error) {
-    console.error("Error getting location:", error.message);
-}
-
-// Get the current position and watch for changes
-if (navigator.geolocation) {
-    navigator.geolocation.watchPosition(updateMarkerPosition, errorCallback, {
-        enableHighAccuracy: true,
-        // maximumAge: 0
-    });
-} else {
-    console.error("Geolocation is not supported by this browser.");
-}
-
-// --------------------------------------------------------------------------------------
+// ----------------------------------------------
 
 
 // toggle function
@@ -295,24 +327,3 @@ function scrollImages(direction) {
     }
 }
 
-
-
-//
-// var geoURL = 'http://127.0.0.1:8000/get_all_place_info'
-// var location_data = {};
-// fetch(geoURL)
-//     .then(response => response.json())
-//     .then(data => {
-//         // Process the JSON data here
-//         const location_data = data;
-//         console.log(location_data);
-//     })
-//     .catch(error => {
-//         // Handle any errors here
-//         console.error('Error:', error);
-//     });
-
-
-
-
-// console.log(geolocation_desc)

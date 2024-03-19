@@ -8,7 +8,7 @@ from django.utils.text import slugify
 class PlaceType(models.Model):
     name = models.CharField(max_length=100)
     def __str__(self):
-        return self.name
+        return self.name +' ( id: '+ str(self.id) +')'
 
 class PlaceInfos(models.Model):
     place_id = models.AutoField(primary_key=True)
@@ -24,6 +24,12 @@ class PlaceInfos(models.Model):
 
     # type
     place_type = models.ForeignKey(PlaceType, on_delete=models.CASCADE)
+
+
+    # district/municipality/ward
+    district = models.CharField(max_length=100)
+    municipality = models.CharField(max_length=100)
+    ward = models.IntegerField()
 
 
    # Carousel images
