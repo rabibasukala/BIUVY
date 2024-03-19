@@ -19,28 +19,34 @@ L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
 
 
 // marker icons
-var customicon = L.icon({
-    iconUrl: markerUrl,
-    iconSize: [38, 95],
+function customIcon(name) {
+    return `/static/assets/icons/${name}.svg`
 
-});
+}
+
 var mypositionMarkerIcon = L.icon({
     iconUrl: mypositionIcon,
-    iconSize: [20, 50],
+    // iconSize: [20, 50],
 
 });
 
 // custom popup content
 function customPopup(feature) {
     coords = feature.geometry.coordinates
+    place_name = feature.properties.place_name
+    mainImage = feature.properties.mainImage
+    slug = feature.properties.slug
+
+
+
     return `    <div class="pop">
 
-    <img class="popimg" src="../media/images/bkt.jpg" alt="" srcset="">
+    <img class="popimg" src="${mainImage}" alt="${mainImage}" srcset="">
 
     <div>
 
         <div class="nameAndView">
-            <span class="popupname">Bhaktapur Durbar Square</span>
+            <span class="popupname">${place_name}</span>
 
             <span class="view"> <img src="${paperplaneSvg}" alt="">10.2 km</span>
         </div>
@@ -49,7 +55,7 @@ function customPopup(feature) {
         <div class="popbtns">
         <!-- <button class="popbtn"><img src="${detailSvg}" alt="">Details</button>
            <button  class="popbtn"><img src="${directionSvg}" alt="">Directions</button> --> 
-            <button  onclick="window.location.href='${descriptionUrl}'" class="popbtn">Details</button>
+            <button  onclick="window.location.href='/description/${slug}'" class="popbtn">Details</button>
             <button onclick="giveRoute('${coords}')" class="popbtn">Directions</button>
 
         </div>
@@ -58,15 +64,14 @@ function customPopup(feature) {
 </div>`
 }
 
+
+
 // retrive the geo data and plot it
-const geodata = L.geoJSON(location_data
+const geodata = L.geoJSON(geolocation_desc
     , {
         onEachFeature: function (feature, layer) {
 
             const popupContent =
-                // feature.properties.Name +
-
-                // feature.properties.score +
                 customPopup(feature);
 
 
@@ -75,7 +80,14 @@ const geodata = L.geoJSON(location_data
         },
         pointToLayer: function (feature, latlng) {
             // console.log(feature)
-            return L.marker(latlng, { icon: customicon });
+            return L.marker(latlng, {
+                icon: L.icon({
+                    iconUrl: customIcon(feature.properties.place_type),
+                    iconSize: [38, 95],
+
+                })
+            });
+            return L.marker(latlng);
         }
     }
 );
@@ -121,9 +133,16 @@ function turnLocation() {
 // ------------------------------------------------
 
 // --------------------------------- routing:------------------------------------------
+let routingControl = null; // Define a global variable to hold the routing control
+
 function giveRoute(Placecoords) {
     let lngPlace = Placecoords.split(',')[0];
     let latPlace = Placecoords.split(',')[1];
+
+    // Remove existing routing control if it exists
+    if (routingControl) {
+        map.removeControl(routingControl);
+    }
 
     // let user to turn on location
     turnLocation();
@@ -132,7 +151,7 @@ function giveRoute(Placecoords) {
 
         let currentLocation = [myposition.coords.latitude, myposition.coords.longitude];
 
-        L.Routing.control({
+        routingControl = L.Routing.control({
             waypoints: [
                 L.latLng(currentLocation[0], currentLocation[1]),
                 L.latLng(latPlace, lngPlace)
@@ -144,17 +163,17 @@ function giveRoute(Placecoords) {
                 // Use custom icons for start and end points
                 if (i === 0) {
                     map.flyTo(waypoint.latLng, 19);
-                    return L.marker(waypoint.latLng, { icon: customicon });
+                    return L.marker(waypoint.latLng);
                 } else if (i === n - 1) {
-                    return L.marker(waypoint.latLng, { icon: customicon });
+                    return L.marker(waypoint.latLng);
                 } else {
                     // Default marker for intermediate points
                     return L.marker(waypoint.latLng);
                 }
             },
             showalternatives: false,
-            draggableWaypoints: false,
-            addWaypoints: false,
+            draggableWaypoints: [true, false],  //to make the start point(current positin) draggable 
+            // addWaypoints: false,
 
             lineOptions: {
                 styles: [{ color: 'purple', opacity: 1, weight: 5 }]
@@ -275,3 +294,25 @@ function scrollImages(direction) {
         });
     }
 }
+
+
+
+//
+// var geoURL = 'http://127.0.0.1:8000/get_all_place_info'
+// var location_data = {};
+// fetch(geoURL)
+//     .then(response => response.json())
+//     .then(data => {
+//         // Process the JSON data here
+//         const location_data = data;
+//         console.log(location_data);
+//     })
+//     .catch(error => {
+//         // Handle any errors here
+//         console.error('Error:', error);
+//     });
+
+
+
+
+// console.log(geolocation_desc)

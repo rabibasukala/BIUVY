@@ -110,13 +110,13 @@ audio::-webkit-media-controls-mute-button {
 
 }
 
-/* 
+
 .topimg {
     height: 100%;
     width: 100%;
-    object-fit: cover;
+    object-fit: content;
 
-} */
+}
 
 .topvideo {
     height: 100%;
@@ -241,8 +241,15 @@ audio::-webkit-media-controls-mute-button {
 
 .map-snippet {
     height: inherit;
-    background-color: salmon;
+    /* background-color: salmon; */
     border-radius: 5px;
+
+}
+
+#map {
+    height: 100%;
+    width: 100%;
+
 
 }
 
