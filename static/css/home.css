@@ -379,6 +379,7 @@ body {
     z-index: 3000;
     background-color: red;
     margin: 0px;
+    display: none !important;
 
 }
 
@@ -412,7 +413,8 @@ body {
 
 
 
-.searchitems {
+.searchitems,
+.route-input-div {
     padding: 2px;
     /* background-color: tomato; */
 }
@@ -437,7 +439,7 @@ body {
 
 }
 
-#closeIcon {
+.closeIcon {
     position: absolute;
     top: 5px;
     right: 10px;
@@ -480,6 +482,55 @@ body {
     border-radius: 5px;
 
 }
+
+
+/* find route search */
+.find-route-main-div {
+    position: absolute;
+    top: 63px;
+    right: 15px;
+    z-index: 3000;
+    width: 300px;
+    height: auto;
+    background-color: purple;
+    color: white;
+    padding: 5px;
+    display: none;
+    border-radius: 10px;
+
+}
+
+.route-input-div {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+
+}
+
+.route-input-div input {
+    border-radius: 12px;
+    height: 35px;
+    width: 90%;
+    padding: 5px;
+    border: none;
+    box-shadow: none;
+    outline: none;
+    margin: 5px 0px;
+
+}
+
+.route-input-div input[disabled] {
+    background-color: rgb(245, 175, 245);
+
+}
+
+.suggestion {
+
+    cursor: pointer;
+}
+
+
 
 
 

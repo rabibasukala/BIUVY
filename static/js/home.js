@@ -230,26 +230,68 @@ function giveRoute(Placecoords) {
 // -----------------basic search yet one of hard lol------------------------------------------
 
 // Get the district ,municipality and ward from the URL query parameters
-const params = new URLSearchParams(window.location.search);
-const district = params.get('district');
-const municipality = params.get('municipality');
-const ward = params.get('ward');
+function bottomsearch() {
+    const params = new URLSearchParams(window.location.search);
+    const district = params.get('district');
+    const municipality = params.get('municipality');
+    const ward = params.get('ward');
 
-const address = `${municipality}-${ward}, ${municipality}, ${district}, Nepal`; // Adjust the address format as needed
-// Use Nominatim geocoding to get the coordinates
-L.Control.Geocoder.nominatim().geocode(address, function (results) {
-    if (results && results.length > 0) {
-        console.log(results);
-        const latlng = [results[0].center.lat, results[0].center.lng];
-        // Zoom into the area
-        map.setView(latlng, 12); // Adjust the zoom level as needed
-    } else {
-        console.error('Could not find coordinates for the address:', address);
+    const address = `${municipality}-${ward}, ${municipality}, ${district}, Nepal`; // Adjust the address format as needed
+    // Use Nominatim geocoding to get the coordinates
+    L.Control.Geocoder.nominatim().geocode(address, function (results) {
+        if (results && results.length > 0) {
+            console.log(results);
+            const latlng = [results[0].center.lat, results[0].center.lng];
+            // Zoom into the area
+            map.setView(latlng, 13); // Adjust the zoom level as needed
+        } else {
+            console.error('Could not find coordinates for the address:', address);
+        }
+    });
+}
+
+// ----------------------------------------------
+
+// -------------suggest location with nominatim geocoding in input field ----------------
+// 
+document.querySelector('#inputLocation').addEventListener('input', function () {
+    var query = this.value;
+    // console.log(query);
+    if (query.length >= 3) { // Only search if at least 3 characters are entered
+        L.Control.Geocoder.nominatim().geocode(query, function (results) {
+            var suggestionsDiv = document.getElementById('suggestions');
+            suggestionsDiv.innerHTML = '';
+            results.forEach(function (result) {
+                var suggestion = document.createElement('div');
+                suggestion.textContent = result.name;
+                suggestion.classList.add('suggestion');
+
+                // if selected to that location
+                suggestion.addEventListener('click', function () {
+                    // console.log(result.center.lat);
+                    L.marker(result.center).addTo(map); // Set map view to selected location
+
+                    closeRoute();
+
+                    map.flyTo(result.center, 18); // Fly to the marker's location with zoom level 18
+                });
+                suggestionsDiv.appendChild(suggestion);
+            });
+        });
     }
 });
 
 
+// --------------------------------------------------------------------------------------
+
+
+// --------------find route seacrh------------
+// get starting and end point [starting point is current location,end point is searched param]
+
+// TODO
+
 // ----------------------------------------------
+
 
 
 // toggle function
@@ -268,19 +310,19 @@ function toggleIcon(elementToShow, elementsToHide) {
 }
 
 // routing icon:
-var leafletTopRight = document.querySelector('.leaflet-top.leaflet-right');
-var routeicon = document.querySelector('#routeIcon');
-leafletTopRight.style.display = "none";
-routeicon.addEventListener('click', function () {
-    toggleIcon(leafletTopRight, [advanceMainSearchDiv, qrMainDiv]);
-});
+// var leafletTopRight = document.querySelector('.leaflet-top.leaflet-right');
+// var routeicon = document.querySelector('#routeIcon');
+// leafletTopRight.style.display = "none";
+// routeicon.addEventListener('click', function () {
+//     toggleIcon(leafletTopRight, [advanceMainSearchDiv, qrMainDiv]);
+// });
 
 // advance search
 var advanceMainSearchDiv = document.querySelector('.advance-main-search-div');
 var advanceSearchIcon = document.querySelector('#advanceSearchIcon');
 advanceMainSearchDiv.style.display = "none";
 advanceSearchIcon.addEventListener('click', function () {
-    toggleIcon(advanceMainSearchDiv, [leafletTopRight, qrMainDiv]);
+    toggleIcon(advanceMainSearchDiv, [findRouteMainDiv, qrMainDiv]);
 });
 
 // close advance search
@@ -298,7 +340,7 @@ var qrMainDiv = document.querySelector('.qr-main-div');
 var qrIcon = document.querySelector('#qrIcon');
 qrMainDiv.style.display = "none";
 qrIcon.addEventListener('click', function () {
-    toggleIcon(qrMainDiv, [leafletTopRight, advanceMainSearchDiv]);
+    toggleIcon(qrMainDiv, [findRouteMainDiv, advanceMainSearchDiv]);
 });
 // close qr
 function closeQr() {
@@ -307,6 +349,25 @@ function closeQr() {
         searchDiv.style.display = 'block';
     } else {
         searchDiv.style.display = 'none';
+    }
+}
+
+
+// find route on search
+var findRouteMainDiv = document.querySelector('.find-route-main-div');
+var routeIcon = document.querySelector('#routeIcon');
+findRouteMainDiv.style.display = "none";
+routeIcon.addEventListener('click', function () {
+    toggleIcon(findRouteMainDiv, [qrMainDiv, advanceMainSearchDiv]);
+});
+// close find route search
+function closeRoute() {
+    var findRouteMainDiv = document.querySelector('.find-route-main-div');
+
+    if (findRouteMainDiv.style.display === 'none' || findRouteMainDiv.style.display === '') {
+        findRouteMainDiv.style.display = 'block';
+    } else {
+        findRouteMainDiv.style.display = 'none';
     }
 }
 
