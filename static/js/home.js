@@ -15,10 +15,8 @@ L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
 
 }).addTo(map);
 
-// locate control
-L.control.locate().addTo(map);
-
-
+// Get a reference to the locate control
+var locateControl = L.control.locate().addTo(map);
 
 
 // marker icons
@@ -186,6 +184,7 @@ function turnLocation() {
 let routingControl = null; // Define a global variable to hold the routing control
 
 function giveRoute(Placecoords) {
+    // console.log("here   ", Placecoords);
     let lngPlace = Placecoords.split(',')[0];
     let latPlace = Placecoords.split(',')[1];
 
@@ -201,7 +200,8 @@ function giveRoute(Placecoords) {
         }
 
         let currentLocation = [myposition.coords.latitude, myposition.coords.longitude];
-
+        // Trigger the locate method
+        locateControl.start();
         routingControl = L.Routing.control({
             waypoints: [
                 L.latLng(currentLocation[0], currentLocation[1]),
@@ -272,9 +272,11 @@ document.querySelector('#inputLocation').addEventListener('input', function () {
                     L.marker(result.center).addTo(map); // Set map view to selected location
 
                     closeRoute();
-
+                    /// get starting and end point [starting point is current location,end point is searched param]
+                    giveRoute(`${result.center.lng},${result.center.lat}`);
                     map.flyTo(result.center, 18); // Fly to the marker's location with zoom level 18
                 });
+
                 suggestionsDiv.appendChild(suggestion);
             });
         });
@@ -283,14 +285,6 @@ document.querySelector('#inputLocation').addEventListener('input', function () {
 
 
 // --------------------------------------------------------------------------------------
-
-
-// --------------find route seacrh------------
-// get starting and end point [starting point is current location,end point is searched param]
-
-// TODO
-
-// ----------------------------------------------
 
 
 
