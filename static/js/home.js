@@ -10,7 +10,7 @@ var map = L.map('map', {
 // map tiles
 L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
 
-    attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> rabibasukala01'
+    attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> rabibasukala01 / rajprajapati02'
     , maxZoom: 19,
 
 }).addTo(map);
@@ -188,20 +188,22 @@ function giveRoute(Placecoords) {
     let lngPlace = Placecoords.split(',')[0];
     let latPlace = Placecoords.split(',')[1];
 
+    // Trigger the locate method
+    locateControl.start();
+
 
     // let user to turn on location
     turnLocation();
 
     navigator.geolocation.watchPosition(function (myposition) {
-
+        console.log("located");
         // Remove existing routing control if it exists, looks realtime routing
         if (routingControl) {
             map.removeControl(routingControl);
         }
 
         let currentLocation = [myposition.coords.latitude, myposition.coords.longitude];
-        // Trigger the locate method
-        locateControl.start();
+
         routingControl = L.Routing.control({
             waypoints: [
                 L.latLng(currentLocation[0], currentLocation[1]),
@@ -215,7 +217,7 @@ function giveRoute(Placecoords) {
             showalternatives: false,
             draggableWaypoints: [true, false],  //to make the start point(current positin) draggable 
             addWaypoints: false,
-
+            fitSelectedRoutes: false, // Disable automatic fitting of route bounds
             lineOptions: {
                 styles: [{ color: 'purple', opacity: 1, weight: 5 }]
             },
@@ -269,7 +271,7 @@ document.querySelector('#inputLocation').addEventListener('input', function () {
                 // if selected to that location
                 suggestion.addEventListener('click', function () {
                     // console.log(result.center.lat);
-                    L.marker(result.center).addTo(map); // Set map view to selected location
+                    L.marker(result.center).openOn(map); // Set map view to selected location
 
                     closeRoute();
                     /// get starting and end point [starting point is current location,end point is searched param]
@@ -382,3 +384,75 @@ function scrollImages(direction) {
     }
 }
 
+
+
+// --------------------- scan qr code and decode----------------
+
+let html5QrCode;
+
+function qrscanner() {
+    // This method will trigger user permissions
+    Html5Qrcode.getCameras().then(devices => {
+        /**
+         * devices would be an array of objects of type:
+         * { id: "id", label: "label" }
+         */
+        if (devices && devices.length) {
+            try {
+                var cameraId = devices[1].id;
+            }
+            catch {
+                var cameraId = devices[0].id;
+            }
+            // .. use this to start scanning.
+            html5QrCode = new Html5Qrcode(/* element id */ "reader",/* verbose= */ false);
+
+            // start the scanning process.
+            html5QrCode.start(
+                cameraId,
+                {
+                    fps: 10,    // Optional, frame per seconds for qr code scanning
+                    qrbox: { width: 150, height: 150 }  // Optional, if you want bounded box UI
+                },
+                (decodedText, decodedResult) => {
+                    // do something when code is read
+                    // console.log(`Code matched = ${decodedText}`);
+                    console.log(decodedResult.decodedText);
+
+                    // after found decoded text stop the camera
+                    html5QrCode.stop().then((ignore) => {
+                        // QR Code scanning is stopped.
+                    }).catch((err) => {
+                        // Stop failed, handle it.
+                        console.log(err);
+                    });
+                },
+                (errorMessage) => {
+                    // parse error, ignore it.
+                })
+                .catch((err) => {
+                    // Start failed, handle it.
+                    console.log("camera failed", err);
+                });
+            // console.log(cameraId);
+        }
+    }).catch(err => {
+        console.log(err)
+    });
+
+
+}
+// function to stop the camera
+function stopCamera() {
+    // console.log("stop camera");
+    if (html5QrCode) {
+        closeQr();
+        html5QrCode.stop().then((ignore) => {
+            // QR Code scanning is stopped.
+        }).catch((err) => {
+            // Stop failed, handle it.
+            console.log(err);
+        });
+
+    }
+}

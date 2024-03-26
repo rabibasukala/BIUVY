@@ -1,6 +1,6 @@
-from django.shortcuts import render
+from django.shortcuts import render,redirect
 from django.http import HttpResponse
-from .models import PlaceInfos,PlaceType
+from .models import PlaceInfos,PlaceType,Review
 import json
 
 # Create your views here.
@@ -72,17 +72,39 @@ def home(request):
 
 
 
-def description(request,slug):  
-    # print(slug)
+def description(request,slug):
+
+    # get the place(unique slug)
     place_obj = PlaceInfos.objects.get(slug=slug)
+
+    # get the reviews of the place(unique slug)
+    review_obj = Review.objects.filter(place_info__slug=slug).order_by('-review_date')
+    # print(type(review_obj[0].rating))   ----> <class 'int'>
+
+
     carousel_images=[]
     # we have 10 images in the carousel so we will loop through them and add them to the list
     carousel_images = place_obj.get_non_blank_carousel_images()
     context={
             'place_obj': place_obj,
             'carousel_images':carousel_images,
+            'review_obj':review_obj
     }
-    # return HttpResponse(place_obj)
+
+
+    # post the review
+    if request.method == 'POST':
+        rating=request.POST.get('rating')
+        place_slug=request.POST.get('place_slug')
+        review_text=request.POST.get('reviewtext')
+        user=request.user
+        place_info = PlaceInfos.objects.get(slug=place_slug)
+     
+
+        review = Review.objects.create(rating=rating, review_text=review_text, place_info=place_info,reviewer_name=user)
+
+        return redirect('description',slug=place_slug)
+    
     return render(request, 'description.html', context)
 
 

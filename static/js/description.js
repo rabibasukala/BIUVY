@@ -64,7 +64,7 @@ let scrollInterval = setInterval(() => {
 
 
 // map
-
+// coords is variable from the description.html
 var map = L.map('map', {
     center: coords,
     zoom: 14

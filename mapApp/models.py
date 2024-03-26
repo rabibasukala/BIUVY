@@ -2,6 +2,7 @@ from django.db import models
 import os
 import uuid
 from django.utils.text import slugify
+from django.contrib.auth.models import User
 # Create your models here.
 
 
@@ -55,7 +56,7 @@ class PlaceInfos(models.Model):
         return carousel_images
 
     def save(self, *args, **kwargs):
-# slugify the place_name
+        # slugify the place_name
         if not self.slug:
             self.slug = slugify(self.place_name)
         # Check if any carousel image fields are filled and enforce uniqueness
@@ -72,4 +73,26 @@ class PlaceInfos(models.Model):
     def __str__(self):
         
         return self.place_name + ' | ' + str(self.place_id)
+    
+
+
+# reviews
+
+class Review(models.Model):
+    RATING_CHOICES = [
+        (1, '1 Star'),
+        (2, '2 Stars'),
+        (3, '3 Stars'),
+        (4, '4 Stars'),
+        (5, '5 Stars'),
+    ]
+    rating = models.IntegerField(choices=RATING_CHOICES)
+    review_text = models.TextField()
+    review_date = models.DateField(auto_now_add=True)
+    reviewer_name = models.ForeignKey(User, on_delete=models.CASCADE)
+    place_info = models.ForeignKey(PlaceInfos, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return f"{self.place_info.slug} - {self.reviewer_name.first_name} - {self.rating} Stars ({self.review_date})"
+
     

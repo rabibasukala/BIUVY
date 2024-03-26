@@ -18,7 +18,7 @@ def signup(request):
         password1 = request.POST['password1']
         password2 = request.POST['password2']
 
-        print(fname, lname, username, email, password1, password2)
+        # print(fname, lname, username, email, password1, password2)
         # Check inputs:
 
         # checking passwords
@@ -48,8 +48,8 @@ def signup(request):
                 return render(request, 'auths/signUp.html')
             
             users = User.objects.create_user(username, email, password1)
-            users.first_name = fname
-            users.last_name = lname
+            users.first_name = fname.capitalize()
+            users.last_name = lname.capitalize()
             users.last_login =timezone.now()
             users.save()
             print("user created")

@@ -8,17 +8,19 @@
     <title>BIUVY</title>
 
     <!-- boostrap css -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet"
-        integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
+
+
+    <link rel="stylesheet" href="{%static 'assets/bootstrap-5.2.3/bootstrap.min.css'%}">
+
 
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
 
 
-            <!-- leaflet  -->
-            <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
-            integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
-        <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
-            integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+    <!-- leaflet  -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+        integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+        integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
     <!-- custom css -->
     <link rel="stylesheet" href="{% static 'css/description.css' %}">
 </head>
@@ -65,7 +67,7 @@
                         <img src='{{image.url}}' class="d-block w-100 rounded-4 c-img" alt="image">
                     </div>
                     {% endfor %}
-                   
+
                 </div>
                 <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleInterval"
                     data-bs-slide="prev">
@@ -185,36 +187,105 @@
         </div>
     </div>
 
-    <div class="container d-flex">
-        <div class="bottom-section">
-            <h3>Map</h3>
-            <div class="line mb-3"></div>
-            <div class="map-snippet">
-                <div id="map"></div>
-                {% comment %} <iframe width="100%" height="100%"
-                    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3532.2193819626273!2d85.34623757479201!3d27.71051197618072!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x39eb191aaaaaaaab%3A0x424c7d0a60df9091!2sPashupatinath%20Temple!5e0!3m2!1sen!2snp!4v1709817836506!5m2!1sen!2snp"
-                    style="border:0;" allowfullscreen="" loading="lazy"
-                    referrerpolicy="no-referrer-when-downgrade"></iframe>  {% endcomment %}
+    
+    <form action="" method='post'>
+        {% csrf_token %}
+        <div class="container d-flex">
+            <div class="bottom-section">
+                <h3>Map</h3>
+                <div class="line mb-3"></div>
+                <div class="map-snippet">
+                    <div id="map"></div>
+
+                </div>
+            </div>
+            
+            <div class="bottom-section">
+                <h3>Reviews and Rating</h3>
+                <div class="line mb-3"></div>
+                <div class="review-snippet">
+                    <input type="hidden" name="place_slug" value="{{ place_obj.slug }}">
+                    <div class="review-top-section">
+                        <div class="stars">
+                            <input type="radio" id="star5" name="rating" value="5">
+                            <label for="star5">&#9733;</label>
+                            <input type="radio" id="star4" name="rating" value="4">
+                            <label for="star4">&#9733;</label>
+                            <input type="radio" id="star3" name="rating" value="3">
+                            <label for="star3">&#9733;</label>
+                            <input type="radio" id="star2" name="rating" value="2">
+                            <label for="star2">&#9733;</label>
+                            <input type="radio" id="star1" name="rating" value="1">
+                            <label for="star1">&#9733;</label>
+                        </div>
+                        <div class="review">
+                            <div class="averageReview">4.0</div>
+                            <div class="totalReview">12,012 Reviews</div>
+                        </div>
+                    </div>
+                    <div class="reviewLine"></div>
+
+                    <div class="text-area">
+                        <textarea name="reviewtext" id="review" placeholder="Write your review here" required></textarea>
+
+
+                    </div>
+                    <div class="submitRate">
+                        <input type="submit" class="submitbtn" value="Submit"></input>
+                    </div>
+                </div>
             </div>
         </div>
-        <div class="bottom-section">
-            <h3>Help?</h3>
-            <div class="line mb-3"></div>
-            <div class="help-snippet ">
-                <h3>
+    </form>
 
-                    <i class="bi bi-question-circle"></i>
-                </h3>
-                <h3>help & Support</h3>
-                <span>The Brilliant reasons Entrada be</span>
-                <span class="mb-2">your one-stop-shop!</span>
-                <span> help@entrada.com</span>
-                <span> +977(985) 456-32-12</span>
+    {% comment %} comments/reviews {% endcomment %}
 
+
+    <div class="container">
+        <p class='what'>What people Think</p>
+
+        <div class="whatline"></div>
+
+        {% if user.is_authenticated %}
+
+            {% if review_obj|length <= 0 %}
+                <div style="margin-top:10px" class='text-center'>
+                    <p>Be the first to give a review!</p>
+                </div>
+                {% else %}
+                    {% for review in review_obj %}
+                        <div class="comments">
+                            <p class="review-info">{{review.reviewer_name.first_name}} {{review.reviewer_name.last_name}}, <span class="review-date">({{review.reviewer_name.username}}), {{review.review_date}}</span></p>
+                            <div class="rating">
+                                <!-- Display stars based on the rating -->
+                                {% for i in "12345" %}
+                                    {% if i|add:'0' <= review.rating %}
+                                        <span class="star">&#9733;</span>
+                                    {% else %}
+                                        <span class="star">&#9734;</span>
+                                    {% endif %}
+                                {% endfor %}
+                            </div>
+                            <div class="content">
+                                <p class="review-text">{{review.review_text}}</p>
+                            </div>
+                        </div>
+                    {% endfor %}
+                {% endif %}
+        {% else %}
+            <div style="margin-top:10px" class='text-center'>
+                <p>Please Log in to view the reviews</p>
             </div>
-        </div>
+        {% endif %}
+
 
     </div>
+
+
+
+
+
+
     <footer class="footer1">
         <div class="logofooter">
             <img src='{%static "assets/images/banner.png"%}' alt="Logo">
@@ -251,21 +322,18 @@
 
 
     <!-- boostrap js without proper -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.min.js"
-        integrity="sha384-cuYeSxntonz0PPNlHhBs68uyIAVpIIOZZ5JqeqvYYIcEL727kskC66kF92t6Xl2V"
-        crossorigin="anonymous">
+    <script src="{%static 'assets/bootstrap-5.2.3/bootstrap.min.js'%}"></script>
+
+
+
+    <script>
+         {% comment %} variables  {% endcomment %}
+        var coords = [{{ place_obj.latitude }}, {{place_obj.longitude}}];
+
     </script>
 
-        
-        
-        <script>
-            <!-- variables -->
-            var coords= [{{place_obj.latitude}},{{place_obj.longitude}}];
-            
-        </script>
-        
-        <!-- custom js -->
-        <script src="{% static 'js/description.js' %}"></script>
+    <!-- custom js -->
+    <script src="{% static 'js/description.js' %}"></script>
 
 </body>
 

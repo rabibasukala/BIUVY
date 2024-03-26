@@ -234,7 +234,8 @@ audio::-webkit-media-controls-mute-button {
     display: flex;
     flex-direction: column;
     text-align: center;
-    margin-bottom: 200px;
+    margin-bottom: 120px;
+    /* background-color: #FFD700; */
 }
 
 
@@ -253,16 +254,333 @@ audio::-webkit-media-controls-mute-button {
 
 }
 
-.help-snippet {
+.review-snippet {
     background-color: purple;
+    height: inherit;
+    /* color: white; */
+    border-radius: 5px;
+}
+
+.review-top-section {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    align-items: center;
+    padding-top: 8px;
+}
+
+/* .stars {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+} */
+
+/* ratings */
+.stars {
+    display: inline-block;
+    direction: rtl;
+    /* Set the direction to right-to-left */
+}
+
+.stars input[type="radio"] {
+    display: none;
+}
+
+.stars label {
+    font-size: 1.8rem;
+    color: #ffffff;
+    cursor: pointer;
+    order: 5;
+}
+
+.stars input[type="radio"]:checked~label {
+    color: gold;
+}
+
+.rating label:nth-of-type(4) {
+    order: 1;
+    /* Set the order of the fourth star to 1 (second from the right) */
+}
+
+.rating label:nth-of-type(3) {
+    order: 2;
+    /* Set the order of the third star to 2 (third from the right) */
+}
+
+.rating label:nth-of-type(2) {
+    order: 3;
+    /* Set the order of the second star to 3 (fourth from the right) */
+}
+
+.rating label:nth-of-type(1) {
+    order: 4;
+    /* Set the order of the first star to 4 (fifth from the right) */
+}
+
+/*  */
+
+.stars label {
+    font-size: 1.8rem;
+
+}
+
+.review {
     display: flex;
     flex-direction: column;
     justify-content: center;
-    height: inherit;
+    align-items: center;
     color: white;
-    font-size: 20px;
-    border-radius: 5px;
 }
+
+.averageReview {
+    font-size: 1.3rem;
+    font-weight: bold;
+}
+
+.totalReview {
+    font-size: 0.7rem;
+    margin-bottom: 10px;
+}
+
+.reviewLine {
+    height: 3px;
+    width: 80%;
+    background-color: rgb(255, 255, 255);
+    margin: auto;
+
+}
+
+.text-area {
+    height: auto;
+    margin: 5px auto;
+    width: 80%;
+    /* background-color: red !important; */
+}
+
+
+.text-area textarea {
+    width: 100%;
+    height: 250px;
+    border-radius: 10px;
+    border: none;
+    padding: 10px;
+    outline: none;
+    resize: none;
+}
+
+.submitbtn {
+    background-color: rgb(255, 255, 255);
+    color: purple;
+    padding: 10px 50px;
+    border: none;
+    border-radius: 20px;
+    cursor: pointer;
+
+}
+
+@media screen and (max-width: 991px) {
+    .text-area textarea {
+
+        height: 154px;
+
+    }
+
+}
+
+@media screen and (max-width: 767px) {
+    .text-area textarea {
+
+        height: 100px;
+
+    }
+
+    .submitbtn {
+        padding: 5px 30px;
+
+    }
+
+    .stars label {
+        font-size: 1.3rem;
+
+    }
+
+    .averageReview {
+        font-size: 1rem;
+        font-weight: bold;
+    }
+
+    .totalReview {
+        font-size: 0.7rem;
+        margin-bottom: 10px;
+    }
+
+}
+
+@media screen and (max-width: 456px) {
+    .bottom-section h3 {
+        font-size: 13px !important;
+    }
+
+    .reviewLine {
+        height: 1px;
+    }
+
+    .text-area textarea::placeholder {
+        font-size: 8px;
+    }
+
+    .text-area {
+        margin-bottom: 0px;
+    }
+
+    .text-area textarea {
+        height: 48px;
+
+    }
+
+
+    .submitbtn {
+        padding: 5px 30px;
+
+    }
+
+    .stars label {
+        font-size: 1.1rem;
+
+    }
+
+    .averageReview {
+        font-size: 0.8rem;
+
+    }
+
+    .totalReview {
+        font-size: 0.5rem;
+
+    }
+
+}
+
+@media screen and (max-width:382px) {
+    .stars label {
+        font-size: 0.9rem;
+
+    }
+
+    .review-top-section {
+        padding-top: 5px;
+    }
+
+}
+
+@media screen and (max-width: 361px) {
+
+    .text-area textarea {
+        height: 48px;
+
+    }
+
+    .text-area textarea::placeholder {
+        font-size: 6px;
+    }
+
+
+
+    .submitbtn {
+        padding: 1px 20px;
+
+    }
+
+    .stars label {
+        font-size: 0.9rem;
+
+    }
+
+    .averageReview {
+        font-size: 0.75rem;
+
+    }
+
+    .totalReview {
+        font-size: 0.48rem;
+
+    }
+
+}
+
+@media screen and (max-width: 333px) {
+    .reviewLine {
+        height: 1px;
+    }
+
+
+    .submitbtn {
+        padding: 1px 20px;
+
+    }
+
+    .stars label {
+        font-size: 0.75rem;
+
+    }
+
+    .averageReview {
+        font-size: 0.6rem;
+        font-weight: bold;
+    }
+
+    .totalReview {
+        font-size: 0.38rem;
+        margin-bottom: 10px;
+    }
+
+}
+
+
+/* comments */
+.what {
+    font-size: 20px;
+    font-weight: bold;
+    color: purple;
+}
+
+.whatline {
+    height: 2px;
+    background-color: purple;
+    margin-top: 1px;
+    margin-bottom: 4px;
+
+}
+
+.comments {
+    padding: 10px 0px;
+    margin-bottom: 5px;
+
+}
+
+
+.star {
+    color: gold;
+    font-size: 1.8rem;
+}
+
+
+.review-info {
+    font-weight: normal;
+    font-size: 19px;
+    color: #555;
+    margin-bottom: 0px;
+
+}
+
+.review-date {
+    font-style: italic;
+    color: #777;
+    font-size: 14px;
+}
+
+
 
 /* footer */
 
@@ -504,7 +822,7 @@ audio::-webkit-media-controls-mute-button {
 /* bottom sections */
 
 @media screen and (max-width:991px) {
-    .help-snippet {
+    .review-snippet {
         height: 300px;
         font-size: 14px;
     }
@@ -520,12 +838,12 @@ audio::-webkit-media-controls-mute-button {
 }
 
 @media screen and (max-width:767px) {
-    .help-snippet {
+    .review-snippet {
         height: 220px;
         font-size: 12px;
     }
 
-    .help-snippet h3 {
+    .review-snippet h3 {
         font-size: 13px;
     }
 
@@ -545,13 +863,13 @@ audio::-webkit-media-controls-mute-button {
 }
 
 @media screen and (max-width:456px) {
-    .help-snippet {
+    .review-snippet {
         height: 150px;
         font-size: 10px;
 
     }
 
-    .help-snippet h3 {
+    .review-snippet h3 {
         font-size: 10px;
     }
 
@@ -571,13 +889,13 @@ audio::-webkit-media-controls-mute-button {
 }
 
 @media screen and (max-width:361px) {
-    .help-snippet {
+    .review-snippet {
         height: 125px;
         font-size: 9px;
 
     }
 
-    .help-snippet h3 {
+    .review-snippet h3 {
         font-size: 9px;
     }
 
@@ -597,13 +915,13 @@ audio::-webkit-media-controls-mute-button {
 }
 
 @media screen and (max-width:354px) {
-    .help-snippet {
+    .review-snippet {
         height: 125px;
         font-size: 8px;
 
     }
 
-    .help-snippet h3 {
+    .review-snippet h3 {
         font-size: 8px;
     }
 

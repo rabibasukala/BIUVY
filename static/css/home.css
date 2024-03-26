@@ -11,7 +11,7 @@ body {
 }
 
 .navbar {
-    background-color: rgb(231, 208, 231);
+    background-color: lavender;
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -63,6 +63,13 @@ body {
 .topsearch-btn {
     margin-left: -4px !important;
     ;
+}
+
+.topicons {
+    /* color: rgb(148, 103, 148); */
+    height: 27px;
+    width: 27px;
+    margin-top: -6px;
 }
 
 @media (max-width: 991px) {
@@ -429,6 +436,11 @@ body {
 
 }
 
+.category a {
+    text-decoration: none;
+    color: #800080;
+}
+
 #advance-search-line {
     position: relative;
     left: 12px;
@@ -482,6 +494,17 @@ body {
     border-radius: 5px;
 
 }
+
+.stopcameratext {
+    text-align: center;
+    color: purple;
+    background-color: white;
+    cursor: pointer;
+    border-radius: 5px;
+
+
+}
+
 
 
 /* find route search */
