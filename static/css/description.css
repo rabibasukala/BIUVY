@@ -184,10 +184,10 @@ audio::-webkit-media-controls-mute-button {
 
 .other {
     position: relative;
-    bottom: 1.875rem;
+    bottom: 0rem;
     height: 28.125rem;
     background-color: purple;
-    opacity: 0.8;
+    /* opacity: 0.8;     */
     color: white;
     padding-top: 10px;
 }
@@ -238,27 +238,84 @@ audio::-webkit-media-controls-mute-button {
     /* background-color: #FFD700; */
 }
 
-
-
-.map-snippet {
+.near {
     height: inherit;
-    /* background-color: salmon; */
-    border-radius: 5px;
+    /* background-color: purple; */
+    border-radius: 12px;
+    color: purple;
+    /* background-color: purple; */
 
 }
 
-#map {
-    height: 100%;
-    width: 100%;
+.leftrighticon {
+    text-align: end;
+    /* background-color: purple; */
+    padding: 10px 10px 0px 0px;
+
+}
+
+#scrollleft,
+#scrollright {
+    font-size: 1.5rem;
+    cursor: pointer;
+}
+
+#scrollright {
+    margin-right: 20px;
+
+}
+
+.nearby-snippet {
+    display: flex;
+    /* justify-content: start;
+    align-items: center; */
+    overflow-x: auto;
+    white-space: nowrap;
+    /* height: inherit; */
+    padding-left: 17px;
 
 
+
+}
+
+.nearby-place {
+    margin: auto;
+    width: 14.5rem;
+    margin-right: 20px;
+    text-align: start;
+
+}
+
+.nearby-place p {
+    font-size: 1rem;
+    font-weight: 600;
+    margin-left: 2px;
+    margin-bottom: 5px;
+}
+
+.nearby-place img {
+    height: 13rem;
+    object-fit: cover;
+    gap: 1rem;
+
+}
+
+.near-img {
+    width: inherit;
+    object-fit: cover;
+    border-radius: 10px;
+    margin-bottom: 8px;
+}
+
+.nearby-snippet::-webkit-scrollbar {
+    display: none;
 }
 
 .review-snippet {
     background-color: purple;
     height: inherit;
     /* color: white; */
-    border-radius: 5px;
+    border-radius: 12px;
 }
 
 .review-top-section {
@@ -827,7 +884,7 @@ audio::-webkit-media-controls-mute-button {
         font-size: 14px;
     }
 
-    .map-snippet {
+    .nearby-snippet {
         height: 300px;
     }
 
@@ -848,7 +905,7 @@ audio::-webkit-media-controls-mute-button {
     }
 
 
-    .map-snippet {
+    .nearby-snippet {
         height: 220px;
     }
 
@@ -873,7 +930,7 @@ audio::-webkit-media-controls-mute-button {
         font-size: 10px;
     }
 
-    .map-snippet {
+    .nearby-snippet {
         height: 150px;
     }
 
@@ -899,7 +956,7 @@ audio::-webkit-media-controls-mute-button {
         font-size: 9px;
     }
 
-    .map-snippet {
+    .nearby-snippet {
         height: 125px;
     }
 
@@ -979,7 +1036,7 @@ audio::-webkit-media-controls-mute-button {
 
 @media screen and (max-width:767px) {
     .other {
-        bottom: 1.8rem;
+        bottom: 0rem;
         height: 20rem;
     }
 
@@ -1098,4 +1155,18 @@ audio::-webkit-media-controls-mute-button {
     .other h3 {
         font-size: 0.6rem;
     }
+}
+
+#map {
+    height: 500px;
+    /* width: 100vw; */
+
+
+}
+
+.mapText {
+    margin-top: 30px;
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: purple;
 }

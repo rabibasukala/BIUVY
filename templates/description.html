@@ -103,16 +103,24 @@
 
         </div>
 
-
-        <!-- looking for experience -->
+        <p class="mapText">Map</p>
+        <div class="line"></div>
     </div>
+
+
+    <!-- map -->
+    <div class="mt-4 mb-2">
+        <div id="map"></div>
+    </div>
+
+    <!-- looking for experience -->
     <div class="other">
         <div class="container ">
 
             <div class="d-flex justify-content-between">
                 <div>
-                    <h4>LOOKING FOR A </h4>
-                    <h3>different experience?</h3>
+                    <h4>Inside</h4>
+                    <h3>This Place</h3>
                 </div>
                 <div class="d-flex justify-content-center align-items-center p-4">
                     <div class="mx-3 bg-primary rounded-3 p-2 mr-4 explorediv">
@@ -187,19 +195,12 @@
         </div>
     </div>
 
-    
+
     <form action="" method='post'>
         {% csrf_token %}
         <div class="container d-flex">
-            <div class="bottom-section">
-                <h3>Map</h3>
-                <div class="line mb-3"></div>
-                <div class="map-snippet">
-                    <div id="map"></div>
 
-                </div>
-            </div>
-            
+
             <div class="bottom-section">
                 <h3>Reviews and Rating</h3>
                 <div class="line mb-3"></div>
@@ -226,7 +227,8 @@
                     <div class="reviewLine"></div>
 
                     <div class="text-area">
-                        <textarea name="reviewtext" id="review" placeholder="Write your review here" required></textarea>
+                        <textarea name="reviewtext" id="review" placeholder="Write your review here"
+                            required></textarea>
 
 
                     </div>
@@ -235,8 +237,76 @@
                     </div>
                 </div>
             </div>
+
+            {% comment %} <div class="bottom-section">
+                <h3>Nearby Places</h3>
+                <div class="line mb-3"></div>
+                <div class="map-snippet">
+                </div>
+            </div> {% endcomment %}
+
+            <div class="bottom-section">
+                <h3>Nearby Places</h3>
+                <div class="line mb-3"></div>
+
+
+
+                <div class="near">
+                    <div class="leftrighticon">
+                        <i id="scrollleft" class="bi bi-arrow-left-circle-fill"></i>
+                        <i id="scrollright" class="bi bi-arrow-right-circle-fill"></i>
+                    </div>
+                    <div class="nearby-snippet">
+                        <div class="nearby-place ">
+    
+                            <p>Bhaktpaur</p>
+                            <img  src="{%static 'assets/images/other.jpg'%}" class=" near-img " alt="temple">
+    
+    
+                        </div>
+                        <div class="nearby-place">
+    
+                            <p>Bhaktpaur</p>
+                            <img src="{%static 'assets/images/other.jpg'%}" class=" near-img  " alt="temple">
+    
+    
+                        </div>
+                        <div class="nearby-place ">
+    
+                            <p>Khaktpaur</p>
+                            <img src="{%static 'assets/images/other.jpg'%}" class=" near-img  " alt="temple">
+    
+    
+                        </div>
+                        <div class="nearby-place ">
+    
+                            <p>Khaktpaur</p>
+                            <img src="{%static 'assets/images/other.jpg'%}" class=" near-img  " alt="temple">
+    
+    
+                        </div>
+                        <div class="nearby-place ">
+    
+                            <p>Khaktpaur</p>
+                            <img src="{%static 'assets/images/other.jpg'%}" class=" near-img  " alt="temple">
+    
+    
+                        </div>
+                        <div class="nearby-place ">
+    
+                            <p>Khaktpaur</p>
+                            <img src="{%static 'assets/images/other.jpg'%}" class=" near-img  " alt="temple">
+    
+    
+                        </div>
+    
+                    </div>
+                </div>
+
+            </div>
         </div>
     </form>
+
 
     {% comment %} comments/reviews {% endcomment %}
 
@@ -248,35 +318,34 @@
 
         {% if user.is_authenticated %}
 
-            {% if review_obj|length <= 0 %}
-                <div style="margin-top:10px" class='text-center'>
-                    <p>Be the first to give a review!</p>
-                </div>
+        {% if review_obj|length <= 0 %} <div style="margin-top:10px" class='text-center'>
+            <p>Be the first to give a review!</p>
+    </div>
+    {% else %}
+    {% for review in review_obj %}
+    <div class="comments">
+        <p class="review-info">{{review.reviewer_name.first_name}} {{review.reviewer_name.last_name}}, <span
+                class="review-date">({{review.reviewer_name.username}}), {{review.review_date}}</span></p>
+        <div class="rating">
+            <!-- Display stars based on the rating -->
+            {% for i in "12345" %}
+            {% if i|add:'0' <= review.rating %} <span class="star">&#9733;</span>
                 {% else %}
-                    {% for review in review_obj %}
-                        <div class="comments">
-                            <p class="review-info">{{review.reviewer_name.first_name}} {{review.reviewer_name.last_name}}, <span class="review-date">({{review.reviewer_name.username}}), {{review.review_date}}</span></p>
-                            <div class="rating">
-                                <!-- Display stars based on the rating -->
-                                {% for i in "12345" %}
-                                    {% if i|add:'0' <= review.rating %}
-                                        <span class="star">&#9733;</span>
-                                    {% else %}
-                                        <span class="star">&#9734;</span>
-                                    {% endif %}
-                                {% endfor %}
-                            </div>
-                            <div class="content">
-                                <p class="review-text">{{review.review_text}}</p>
-                            </div>
-                        </div>
-                    {% endfor %}
+                <span class="star">&#9734;</span>
                 {% endif %}
-        {% else %}
-            <div style="margin-top:10px" class='text-center'>
-                <p>Please Log in to view the reviews</p>
-            </div>
-        {% endif %}
+                {% endfor %}
+        </div>
+        <div class="content">
+            <p class="review-text">{{review.review_text}}</p>
+        </div>
+    </div>
+    {% endfor %}
+    {% endif %}
+    {% else %}
+    <div style="margin-top:10px" class='text-center'>
+        <p>Please Log in to view the reviews</p>
+    </div>
+    {% endif %}
 
 
     </div>
@@ -327,8 +396,8 @@
 
 
     <script>
-         {% comment %} variables  {% endcomment %}
-        var coords = [{{ place_obj.latitude }}, {{place_obj.longitude}}];
+        {% comment %} variables  {% endcomment %}
+        var coords = [{{ place_obj.latitude }}, {{ place_obj.longitude }}];
 
     </script>
 

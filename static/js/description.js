@@ -60,6 +60,21 @@ let scrollInterval = setInterval(() => {
 }, 2000);
 
 
+//bottom ko scroll left and right
+document.getElementById('scrollleft').addEventListener('click', function () {
+    document.querySelector('.nearby-snippet').scrollBy({
+        left: -252,
+        behavior: 'smooth'
+    });
+});
+
+document.getElementById('scrollright').addEventListener('click', function () {
+    document.querySelector('.nearby-snippet').scrollBy({
+        left: 252,
+        behavior: 'smooth'
+    });
+});
+
 
 
 
